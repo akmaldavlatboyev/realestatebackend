@@ -1,0 +1,43 @@
+ishonchmulk/
+│── app/
+│   ├── __init__.py
+│   ├── main.py               # Entry point (FastAPI start)
+│   ├── core/
+│   │   ├── config.py         # Configlar (DB URL, JWT secret, settings)
+│   │   ├── security.py       # Token yaratish, hash
+│   │
+│   ├── db/
+│   │   ├── base.py           # Base deklaratsiya (SQLAlchemy)
+│   │   ├── session.py        # DB session
+│   │
+│   ├── models/
+│   │   ├── user.py           # User modeli
+│   │   ├── property.py       # Uy-joy modeli
+│   │
+│   ├── schemas/
+│   │   ├── user.py           # Pydantic User schema
+│   │   ├── auth.py           # Auth schema (login, register)
+│   │
+│   ├── api/
+│   │   ├── __init__.py
+│   │   ├── deps.py           # umumiy dependencylar
+│   │   ├── v1/
+│   │       ├── auth.py       # Kirish / Ro‘yxatdan o‘tish API
+│   │       ├── users.py      # Foydalanuvchilar API
+│   │       ├── properties.py # Uy-joy API
+│   │       ├── chat.py       # Chat API
+│   │
+│   ├── services/
+│   │   ├── sms.py            # SMS yuborish (Eskiz, Twilio va hokazo)
+│   │   ├── email.py          # Email yuborish (agar kerak bo‘lsa)
+│   │
+│   ├── utils/
+│   │   ├── helpers.py        # Qo‘shimcha util funksiyalar
+│   │
+│   └── tests/
+│       ├── test_auth.py      # Auth testlari
+│       ├── test_users.py
+│
+│── alembic/                  # Agar Alembic migratsiya ishlatsangiz
+│── requirements.txt          # Kutubxonalar
+│── README.md
