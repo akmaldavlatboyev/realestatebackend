@@ -17,15 +17,7 @@ class RegisterRequest(BaseModel):
             raise ValueError("Password must contain at least one lowercase letter")
         if not re.search(r"[0-9]", v):
             raise ValueError("Password must contain at least one number")
-        if not re.search(r"[@$!%*?&]", v):
-            raise ValueError("Password must contain at least one special character (@, $, !, %, *, ?, &)")
-        return v
-
-    @validator("confirm_password")
-    def passwords_match(cls, v, values, **kwargs):
-        if "password" in values and v != values["password"]:
-            raise ValueError("Passwords do not match")
-        return v
+    
 
 
 class LoginRequest(BaseModel):

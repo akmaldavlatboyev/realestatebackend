@@ -8,7 +8,6 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int
 
     DATABASE_URL: str
-
     SMS_API_URL: str
     SMS_API_KEY: str
     SMS_SENDER: str

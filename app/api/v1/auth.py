@@ -16,10 +16,8 @@ router = APIRouter(
     tags=["Auth"],
 )
 
-# 🔐 Parolni hash qilish uchun
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-# 🔑 Token sozlamalari
 SECRET_KEY = settings.SECRET_KEY
 ALGORITHM = settings.ALGORITHM
 ACCESS_TOKEN_EXPIRE_MINUTES = settings.ACCESS_TOKEN_EXPIRE_MINUTES
@@ -57,27 +55,24 @@ def register(request: RegisterRequest, db: Session = Depends(get_db)):
 
 @router.post("/login")
 def login(request: LoginRequest, db: Session = Depends(get_db)):
-    # 1️⃣ Foydalanuvchini telefon raqam orqali qidiring
+    
     user = db.query(User).filter(User.phone == request.phone).first()
 
-    # 2️⃣ Foydalanuvchi mavjudligini tekshirish
+    
     if not user:
         raise HTTPException(status_code=401, detail="Telefon raqam ro‘yxatdan o‘tmagan")
 
-    # 3️⃣ Parolni tekshirish
+    
     if not pwd_context.verify(request.password, user.password):
         raise HTTPException(status_code=401, detail="Parol noto‘g‘ri")
 
-    # 4️⃣ Telefon tasdiqlanishini tekshirish (agar kerak bo‘lsa)
     if not user.is_verified:
         raise HTTPException(status_code=401, detail="Telefon raqamingiz tasdiqlanmagan")
 
-    # 5️⃣ JWT token yaratish
     access_token = create_access_token(data={"sub": str(user.id)})
     return {"access_token": access_token, "token_type": "bearer"}
 
 
-# --- 👤 Current user ---
 @router.get("/me", response_model=UserResponse)
 def get_me(db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
     try:
