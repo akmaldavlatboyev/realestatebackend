@@ -18,6 +18,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# routerlar
+# Routerlar
 app.include_router(auth.router)
 app.include_router(otp.router)
