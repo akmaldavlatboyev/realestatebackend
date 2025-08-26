@@ -3,15 +3,17 @@ from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
 import os
 
-# Root papkadagi .env faylni yuklash
 load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL")
-
 if not DATABASE_URL:
     raise ValueError("DATABASE_URL .env faylda topilmadi")
 
-engine = create_engine(DATABASE_URL)
+# Render PostgreSQL uchun SSL kerak bo'lishi mumkin
+engine = create_engine(
+    DATABASE_URL,
+    connect_args={"sslmode": "require"}  # Renderda SSL bilan ulanadi
+)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
